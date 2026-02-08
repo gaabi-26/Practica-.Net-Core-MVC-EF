@@ -24,17 +24,17 @@ namespace galeria_arte_mvc.Migrations
 
             modelBuilder.Entity("ExposicionObra", b =>
                 {
-                    b.Property<int>("ExposicionesObrasId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("ObrasExpuestasId")
+                    b.Property<Guid>("ObraId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ExposicionesObrasId", "ObrasExpuestasId");
+                    b.Property<int>("ExposicionId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ObrasExpuestasId");
+                    b.HasKey("ObraId", "ExposicionId");
 
-                    b.ToTable("ExposicionObra");
+                    b.HasIndex("ExposicionId");
+
+                    b.ToTable("ExposicionObra", (string)null);
                 });
 
             modelBuilder.Entity("galeria_arte_mvc.Models.Artista", b =>
@@ -79,6 +79,15 @@ namespace galeria_arte_mvc.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Exposiciones");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FechaFin = new DateTime(2025, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaInicio = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nombre = "Expo Especial"
+                        });
                 });
 
             modelBuilder.Entity("galeria_arte_mvc.Models.Obra", b =>
@@ -107,14 +116,14 @@ namespace galeria_arte_mvc.Migrations
                 {
                     b.HasOne("galeria_arte_mvc.Models.Exposicion", null)
                         .WithMany()
-                        .HasForeignKey("ExposicionesObrasId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("ExposicionId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("galeria_arte_mvc.Models.Obra", null)
                         .WithMany()
-                        .HasForeignKey("ObrasExpuestasId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("ObraId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

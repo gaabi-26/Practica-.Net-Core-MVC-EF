@@ -46,13 +46,46 @@ namespace galeria_arte_mvc.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Estilo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UrlImagen = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AritstaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UrlImagen = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Obras", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "ExposicionObra",
+                columns: table => new
+                {
+                    ObraId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExposicionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExposicionObra", x => new { x.ObraId, x.ExposicionId });
+                    table.ForeignKey(
+                        name: "FK_ExposicionObra_Exposiciones_ExposicionId",
+                        column: x => x.ExposicionId,
+                        principalTable: "Exposiciones",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ExposicionObra_Obras_ObraId",
+                        column: x => x.ObraId,
+                        principalTable: "Obras",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Exposiciones",
+                columns: new[] { "Id", "FechaFin", "FechaInicio", "Nombre" },
+                values: new object[] { 1, new DateTime(2025, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Expo Especial" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExposicionObra_ExposicionId",
+                table: "ExposicionObra",
+                column: "ExposicionId");
         }
 
         /// <inheritdoc />
@@ -60,6 +93,9 @@ namespace galeria_arte_mvc.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Artistas");
+
+            migrationBuilder.DropTable(
+                name: "ExposicionObra");
 
             migrationBuilder.DropTable(
                 name: "Exposiciones");
