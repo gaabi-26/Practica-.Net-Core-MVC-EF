@@ -13,16 +13,16 @@ namespace galeria_arte_mvc.Models
         public string Titulo { get; set; }
 
         [Required(ErrorMessage = "El estilo de la obra es requerido.")]
-        public string  Estilo { get; set; }
+        public string Estilo { get; set; }
 
         public string? UrlImagen { get; set; }
 
-        //[ForeignKey("Artista")]
-        //public string AritstaId { get; set; }
+        [ForeignKey("Artista")]
+        public Guid ArtistaId { get; set; }
 
-        [NotMapped]
         public Artista? Artista { get; set; }
 
         public List<Exposicion> ExposicionesObras { get; set; }
+
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using galeria_arte_mvc.Data;
 
@@ -11,9 +12,11 @@ using galeria_arte_mvc.Data;
 namespace galeria_arte_mvc.Migrations
 {
     [DbContext(typeof(GaleriaDbContext))]
-    partial class GaleriaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260208112431_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,8 +115,6 @@ namespace galeria_arte_mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtistaId");
-
                     b.ToTable("Obras");
                 });
 
@@ -130,17 +131,6 @@ namespace galeria_arte_mvc.Migrations
                         .HasForeignKey("ObraId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("galeria_arte_mvc.Models.Obra", b =>
-                {
-                    b.HasOne("galeria_arte_mvc.Models.Artista", "Artista")
-                        .WithMany()
-                        .HasForeignKey("ArtistaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Artista");
                 });
 #pragma warning restore 612, 618
         }

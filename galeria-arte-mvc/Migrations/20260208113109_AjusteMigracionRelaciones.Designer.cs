@@ -12,8 +12,8 @@ using galeria_arte_mvc.Data;
 namespace galeria_arte_mvc.Migrations
 {
     [DbContext(typeof(GaleriaDbContext))]
-    [Migration("20260208080251_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20260208113109_AjusteMigracionRelaciones")]
+    partial class AjusteMigracionRelaciones
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,6 +99,9 @@ namespace galeria_arte_mvc.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("ArtistaId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Estilo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -111,6 +114,8 @@ namespace galeria_arte_mvc.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArtistaId");
 
                     b.ToTable("Obras");
                 });
@@ -128,6 +133,17 @@ namespace galeria_arte_mvc.Migrations
                         .HasForeignKey("ObraId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("galeria_arte_mvc.Models.Obra", b =>
+                {
+                    b.HasOne("galeria_arte_mvc.Models.Artista", "Artista")
+                        .WithMany()
+                        .HasForeignKey("ArtistaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Artista");
                 });
 #pragma warning restore 612, 618
         }

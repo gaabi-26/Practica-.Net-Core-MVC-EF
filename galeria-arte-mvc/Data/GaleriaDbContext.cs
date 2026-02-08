@@ -38,6 +38,16 @@ namespace galeria_arte_mvc.Data
             {
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            modelBuilder.Entity<Exposicion>().HasData(
+                new Exposicion
+                {
+                    Id = 1,
+                    Nombre = "Expo Especial",
+                    FechaInicio = Convert.ToDateTime("10/10/2025"),
+                    FechaFin = Convert.ToDateTime("10/11/2025")
+                }
+            );
         }
     }
 }   

@@ -46,7 +46,8 @@ namespace galeria_arte_mvc.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Estilo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UrlImagen = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UrlImagen = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ArtistaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
