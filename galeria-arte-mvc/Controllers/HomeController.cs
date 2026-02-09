@@ -17,12 +17,12 @@ namespace galeria_arte_mvc.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            var obras = _context.Obras
+            var obras = await _context.Obras
                 .Take(6)
                 .Include(o => o.Artista)
-                .ToList();
+                .ToListAsync();
             return View(obras);
         }
 

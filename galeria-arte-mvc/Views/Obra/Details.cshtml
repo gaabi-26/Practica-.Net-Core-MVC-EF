@@ -1,0 +1,21 @@
+﻿@model Obra
+@{
+}
+
+
+<div class="row row-cols-1 row-cols-md-2">
+    <div class="col">
+        <img src="@Model.UrlImagen" height="400" class="" />
+    </div>
+    <div class="col">
+        <h3>@Model.Titulo</h3>
+        <p>
+            Estilo: @Model.Estilo
+        </p>
+@*         <p>
+            Artista: @Model.Artista.Nombre
+            País: @Model.Artista.Pais
+        </p> *@
+        <a asp-controller="Home" asp-action="Index">Regresar</a>
+    </div>
+</div>

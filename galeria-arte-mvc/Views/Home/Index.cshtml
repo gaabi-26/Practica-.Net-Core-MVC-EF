@@ -12,7 +12,7 @@
                     <h5 class="card-title">@item.Titulo</h5>
                     <p class="card-text">@item.Estilo</p>
                     <p class="card-text">Arista: @item.Artista.Nombre</p>
-                    <a href="#" class=" mt-auto">Detalles</a>
+                    <a asp-controller="Obra" asp-action="Details" asp-route-id="@item.Id" class=" mt-auto">Detalles</a>
                 </div>
             </div>
         </div>
