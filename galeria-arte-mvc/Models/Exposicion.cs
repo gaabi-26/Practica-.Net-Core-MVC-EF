@@ -12,10 +12,12 @@ namespace galeria_arte_mvc.Models
 
         [Required (ErrorMessage = "La fecha de inicio es obligatoria.")]
         [Display(Name = "Fecha de Inicio")]
+        [DataType(DataType.Date)]
         public DateTime FechaInicio { get; set; }
 
         [Required(ErrorMessage = "La fecha de fin es obligatoria.")]
         [Display(Name = "Fecha de Fin")]
+        [DataType(DataType.Date)]
         public DateTime FechaFin { get; set; }
 
         public List<Obra>? ObrasExpuestas { get; set; }
