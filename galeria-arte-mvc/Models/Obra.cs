@@ -22,7 +22,7 @@ namespace galeria_arte_mvc.Models
 
         public Artista? Artista { get; set; }
 
-        public List<Exposicion> ExposicionesObras { get; set; }
+        public List<Exposicion> ExposicionesObras { get; set; } = new List<Exposicion>();
 
     }
 }

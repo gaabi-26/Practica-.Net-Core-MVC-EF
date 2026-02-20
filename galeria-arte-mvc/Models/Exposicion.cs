@@ -20,6 +20,6 @@ namespace galeria_arte_mvc.Models
         [DataType(DataType.Date)]
         public DateTime FechaFin { get; set; }
 
-        public List<Obra>? ObrasExpuestas { get; set; }
+        public List<Obra> ObrasExpuestas { get; set; } = new List<Obra>();
     }
 }

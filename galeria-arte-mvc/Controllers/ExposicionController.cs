@@ -159,8 +159,13 @@ namespace galeria_arte_mvc.Controllers
         public async Task<IActionResult> SeleccionObras(int id)
         {
             ViewBag.IdExpo = id;
-            var obras = await _context.Obras.ToListAsync();
-            return View(obras);
+
+            var obrasDisponibles = await _context.Obras
+                .Where(o => !o.ExposicionesObras
+                    .Any(e => e.Id == id))
+                .ToListAsync();
+
+            return View(obrasDisponibles);
         }
         [HttpPost]
         public async Task<IActionResult> SeleccionObras(int expoId, List<Guid> obraIds)
