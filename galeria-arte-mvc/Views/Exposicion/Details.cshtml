@@ -30,7 +30,32 @@
         </dd>
     </dl>
 </div>
+@if (Model.ObrasExpuestas == null)
+{
+    <p>No hay obras publicadas</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obra in Model.ObrasExpuestas)
+            {
+                <tr>
+                    <td>@obra.Titulo</td>
+                    <td><img src="@obra.UrlImagen" height="50" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a> |
+    <a asp-action="SeleccionObras" asp-route-id="@Model.Id">Agregar Obras</a>
 </div>

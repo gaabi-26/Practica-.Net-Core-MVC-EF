@@ -34,6 +34,7 @@ namespace galeria_arte_mvc.Controllers
             }
 
             var exposicion = await _context.Exposiciones
+                .Include(e => e.ObrasExpuestas)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (exposicion == null)
             {
@@ -152,6 +153,50 @@ namespace galeria_arte_mvc.Controllers
         private bool ExposicionExists(int id)
         {
             return _context.Exposiciones.Any(e => e.Id == id);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SeleccionObras(int id)
+        {
+            ViewBag.IdExpo = id;
+            var obras = await _context.Obras.ToListAsync();
+            return View(obras);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SeleccionObras(int expoId, List<Guid> obraIds)
+        {
+            if (obraIds == null || !obraIds.Any())
+                return BadRequest("No se seleccionaron obras.");
+
+            var expo = await _context.Exposiciones
+                .Include(e => e.ObrasExpuestas)
+                .FirstOrDefaultAsync(e => e.Id == expoId);
+
+            if (expo == null)
+                return NotFound();
+
+            //var obras = await _context.Obras
+            //    .Where(o => obraIds.Contains(o.Id))
+            //    .ToListAsync();
+            //foreach (var obra in obras)
+            //{
+            //    if (!expo.ObrasExpuestas.Any(o => o.Id == obra.Id))
+            //        expo.ObrasExpuestas.Add(obra);
+            //}
+
+            if (expo.ObrasExpuestas == null)
+                expo.ObrasExpuestas = new List<Obra>();
+
+            foreach (var id in obraIds)
+            {
+                var obra = new Obra { Id = id };
+                _context.Attach(obra);
+                expo.ObrasExpuestas.Add(obra);
+            }
+            await _context.SaveChangesAsync();
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
     }
 }
