@@ -171,7 +171,7 @@ namespace galeria_arte_mvc.Controllers
         public async Task<IActionResult> SeleccionObras(int expoId, List<Guid> obraIds)
         {
             if (obraIds == null || !obraIds.Any())
-                return BadRequest("No se seleccionaron obras.");
+                return RedirectToAction("Index");
 
             var expo = await _context.Exposiciones
                 .Include(e => e.ObrasExpuestas)
@@ -202,6 +202,24 @@ namespace galeria_arte_mvc.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> QuitarObrasSeleccionadas(int expoId, Guid obraId)
+        {
+            var expo = await _context.Exposiciones
+                .Include(e => e.ObrasExpuestas)
+                .FirstOrDefaultAsync(e => e.Id == expoId);
+
+            if (expo == null || expo.ObrasExpuestas == null) return NotFound();
+
+            var obra = expo.ObrasExpuestas.FirstOrDefault(o => o.Id == obraId);
+
+            if (obra != null)
+            {
+                expo.ObrasExpuestas.Remove(obra);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Details", new { id = expoId });
         }
     }
 }
