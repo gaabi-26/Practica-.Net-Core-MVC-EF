@@ -20,10 +20,19 @@ namespace galeria_arte_mvc.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             var obras = await _context.Obras
-                .Take(6)
                 .Include(o => o.Artista)
                 .ToListAsync();
-            return View(obras);
+
+            var exposiciones = await _context.Exposiciones.
+                Include(e => e.ObrasExpuestas)
+                .ToListAsync();
+
+            if (obras == null || exposiciones == null)
+            {
+                return NotFound();
+            }
+
+            return View(new HomeViewModel { Exposiciones = exposiciones, Obras = obras});
         }
 
         public IActionResult Privacy()

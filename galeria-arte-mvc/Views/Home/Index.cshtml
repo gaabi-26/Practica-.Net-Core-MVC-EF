@@ -1,20 +1,26 @@
-﻿@{
+﻿@model HomeViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
+
 <h1>Galería de Arte Virtual</h1>
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    @foreach (var item in Model)
-    {
-        <div class="col">
-            <div class="card" style="height: 400px">
-                <img src="@item.UrlImagen" class="card-img-top img-fluid h-50 object-fit-cover" alt="...">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">@item.Titulo</h5>
-                    <p class="card-text">@item.Estilo</p>
-                    <p class="card-text">Arista: @item.Artista.Nombre</p>
-                    <a asp-controller="Obra" asp-action="Details" asp-route-id="@item.Id" class=" mt-auto">Detalles</a>
-                </div>
+
+@await Html.PartialAsync("_CarrouselHome", Model.Obras)
+
+<h2>Exposiciones</h2>
+
+@foreach (var expo in Model.Exposiciones)
+{
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">@expo.Nombre</h5>
+                <p class="card-text mb-1"><strong>Fecha Inicio:</strong> @expo.FechaInicio.ToShortDateString()
+                </p>
+                <p class="card-text"><strong>Fecha Fin</strong> @expo.FechaFin.ToShortDateString()</p>
+                <a asp-controller="Exposicion" asp-action="Details" asp-route-id="@expo.Id"
+                    class="btn btn-primary">Ver Expo</a>
             </div>
         </div>
-    }
-</div>
+    </div>
+}
